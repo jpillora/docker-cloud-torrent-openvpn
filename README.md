@@ -10,7 +10,7 @@
 ### Usage
 
 1. Place your OpenVPN client configuration in `client.conf` 
-1. Optionally, add the line: `auth-user-pass /opt/openvpn/auth.txt` and place your OpenVPN authentication details in `auth.txt`
+1. *Optionally*, add the configuration line: `auth-user-pass /opt/openvpn/auth.txt` and place your OpenVPN authentication details in `auth.txt`
 1. Run the container with:
 
     ```sh
@@ -27,11 +27,12 @@
         jpillora/cloud-torrent-openvpn
     ```
 
-1. Confirm everything works (the logs should say `Initialization Sequence Completed`), then re-run the above with `--rm -it` swapped for `-d --restart always`
+1. Confirm everything works (the logs should say `Initialization Sequence Completed`) and your public IP should have changed (`docker exec cto wget -qO- canihazip.com/s`)
+1. Re-run the above with `--rm -it` swapped for `-d --restart always`
 
 ### Extras
 
-* To start `cloud-torrent` with custom command-line options, replace `/scripts/cloud-torrent.sh`
+* To start `cloud-torrent` with custom command-line options, create a script like [scripts/cloud-torrent.sh](scripts/cloud-torrent.sh) and mount it with: `-v $(pwd)/cloud-torrent.sh:/opt/scripts/cloud-torrent.sh`
 
 #### MIT License
 
