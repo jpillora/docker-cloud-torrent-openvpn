@@ -1,9 +1,13 @@
-FROM jpillora/cloud-torrent
-MAINTAINER dev@jpillora.com
+FROM alpine:edge
+LABEL maintainer="dev@jpillora.com"
 
-#install openvpn
+#install curl, openvpn, supervisor and latest cloud-torrent
 RUN apk update && \
-    apk add openvpn supervisor
+    apk add --no-cache curl openvpn supervisor && \
+    VER=`curl -sI https://github.com/jpillora/cloud-torrent/releases/latest | grep Location | grep -E -o '[0-9\.]{5,}'` && \
+    URL="https://github.com/jpillora/cloud-torrent/releases/download/$VER/cloud-torrent_linux_amd64.gz" && \
+    curl -L "$URL" | gzip -d - > /usr/local/bin/cloud-torrent && \
+    chmod +x /usr/local/bin/cloud-torrent
 
 #setup opt/
 RUN mkdir /opt
